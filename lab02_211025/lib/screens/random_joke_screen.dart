@@ -5,19 +5,23 @@ import '../models/jokes.dart';
 class RandomJokeScreen extends StatelessWidget {
   final JokeService jokeService = JokeService();
 
+  RandomJokeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Random Joke of the Day'),
-        backgroundColor: Colors.orange[200], // AppBar color
+        backgroundColor: Colors.purple[200],
       ),
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.orange, Colors.white],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          image: DecorationImage(
+            image: NetworkImage(
+              'https://img.freepik.com/free-vector/gradient-geometric-pattern-background_23-2149120340.jpg',
+            ),
+            fit: BoxFit.cover,
+            opacity: 0.7,
           ),
         ),
         child: FutureBuilder<Joke>(
@@ -26,20 +30,15 @@ class RandomJokeScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return const Center(
-                child: Text(
-                  'Failed to load random joke. Please try again later.',
-                  style: TextStyle(fontSize: 16.0, color: Colors.red),
-                ),
-              );
+              return const Center(child: Text('Failed to load random joke'));
             } else {
               final joke = snapshot.data!;
               return Center(
                 child: Card(
-                  color: Colors.orange[100], // Card color
-                  elevation: 6.0, // Card shadow effect
+                  color: Colors.deepPurple[50],
+                  elevation: 12.0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -54,13 +53,10 @@ class RandomJokeScreen extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 12.0),
+                        const SizedBox(height: 10.0),
                         Text(
                           joke.punchline,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            fontStyle: FontStyle.italic,
-                          ),
+                          style: const TextStyle(fontSize: 16.0),
                           textAlign: TextAlign.center,
                         ),
                       ],
